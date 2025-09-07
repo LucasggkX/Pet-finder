@@ -78,11 +78,12 @@ end
 local function Web(link, faixa)
     local req = request or http_request or (syn and syn.request) or (http and http.request)
     if not req then return end
+    local utcTime = os.date("!%Y-%m-%d %H:%M:%S")
     local data = {
         embeds = {{
             title = "# 🧠 " .. faixa.nome .. " | 💰 " .. faixa.generation .. " | " .. GetPlayers(),
             color = 0x000000,
-            footer = { text = "LKZ JOINER" },
+            footer = { text = "LKZ JOINER • " .. utcTime .. " UTC" },
             fields = {
                 { name = "📛 Brainrot Name", value = faixa.nome, inline = false },
                 { name = "👥 Players", value = GetPlayers(), inline = true },
@@ -103,6 +104,8 @@ local function Web(link, faixa)
 end
 
 --[[ === DEBUG === ]]--
+
+repeat task.wait() until game:IsLoaded()
 
 local faixa1 = Best("1M/s", "5M/s")
 local faixa2 = Best("5M/s", "10M/s")
