@@ -68,7 +68,6 @@ local function GetUrl()
 end
 
 local function GetPlayers()
-    local Players = game:GetService("Players")
     local current = #Players:GetPlayers()
     local maxPlayers = Players.MaxPlayers or 0
     local icon = "👤"
@@ -76,6 +75,7 @@ local function GetPlayers()
 end
 
 local function Web(link, faixa)
+    if #Players:GetPlayers() >= Players.MaxPlayers then return end
     local req = request or http_request or (syn and syn.request) or (http and http.request)
     if not req then return end
     local utcTime = os.date("!%Y-%m-%d %H:%M:%S")
@@ -124,4 +124,17 @@ if faixa3 then
 end
 
 --[[ === SCRIPT === ]]--
+
+local webhooks = {
+    { _G.more_than_1Mi_less_than_5MI_Webhook, faixa1 },
+    { _G.more_than_5Mi_less_than_10MI_Webhook, faixa2 },
+    { _G.more_than_10Mi_less_than_999MI_Webhook, faixa3 }
+}
+
+for _, pair in ipairs(webhooks) do
+    local link, faixa = pair[1], pair[2]
+    if link ~= "" and faixa then
+        Web(link, faixa)
+    end
+end
 
