@@ -60,11 +60,18 @@ local function Best(minStr, maxStr)
     return bestAnimal
 end
 
-local a = Best("100K/s", "1M/s")
-if a then
-    print(a.nome)
-    print(a.raridade)
-    print(a.generation)
-else
-    print("Nenhum animal encontrado")
+local faixa1 = Best("1M/s", "5M/s")
+local faixa2 = Best("5M/s", "10M/s")
+local faixa3 = Best("10M/s", "999.9M/s")
+
+if faixa1 then
+    print("1M/s -> 5M/s: " .. faixa1.nome .. " - " .. faixa1.generation)
+end
+
+if faixa2 then
+    print("5M/s -> 10M/s: " .. faixa2.nome .. " - " .. faixa2.generation)
+end
+
+if faixa3 then
+    print("10M/s -> 999.9M/s: " .. faixa3.nome .. " - " .. faixa3.generation)
 end
