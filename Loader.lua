@@ -82,7 +82,7 @@ local function Web(link, faixa)
         embeds = {{
             title = "# 🧠 " .. faixa.nome .. " | 💰 " .. faixa.generation .. " | " .. GetPlayers(),
             color = 0x000000,
-            footer = { text = "LKHZ JOINER" },
+            footer = { text = "LKZ JOINER" },
             fields = {
                 { name = "📛 Brainrot Name", value = faixa.nome, inline = false },
                 { name = "👥 Players", value = GetPlayers(), inline = true },
