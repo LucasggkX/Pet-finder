@@ -6,6 +6,7 @@
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
+local HttpService = game:GetService("HttpService")
 
 local function parseValue(str)
     if not str then return 0 end
@@ -60,6 +61,49 @@ local function Best(minStr, maxStr)
     return bestAnimal
 end
 
+local function GetUrl()
+    local placeId = game.PlaceId
+    local jobId = game.JobId
+    return "https://lucasggkx.github.io/Pet-finder/?placeId=" .. placeId .. "&gameInstanceId=" .. jobId
+end
+
+local function GetPlayers()
+    local Players = game:GetService("Players")
+    local current = #Players:GetPlayers()
+    local maxPlayers = Players.MaxPlayers or 0
+    local icon = "👤"
+    return icon .." ".. current .. "/" .. maxPlayers
+end
+
+local function Web(link, faixa)
+    local req = request or http_request or (syn and syn.request) or (http and http.request)
+    if not req then return end
+    local data = {
+        embeds = {{
+            title = "# 🧠 " .. faixa.nome .. " | 💰 " .. faixa.generation .. " | " .. GetPlayers(),
+            color = 0x000000,
+            footer = { text = "LKHZ JOINER" },
+            fields = {
+                { name = "📛 Brainrot Name", value = faixa.nome, inline = false },
+                { name = "👥 Players", value = GetPlayers(), inline = true },
+                { name = "💰 Final Generation", value = faixa.generation, inline = true },
+                { name = "🌐 Place ID", value = tostring(game.PlaceId), inline = false },
+                { name = "🆔 Job ID", value = tostring(game.JobId), inline = false },
+                { name = "💻 Join Script (PC)", value = "```lua\ngame:GetService(\"TeleportService\"):TeleportToPlaceInstance(" .. game.PlaceId .. ", \"" .. game.JobId .. "\", game.Players.LocalPlayer)\n```", inline = false },
+                { name = "🔗 Join Link", value = "[Click to Join](" .. GetUrl() .. ")", inline = false },
+            }
+        }}
+    }
+    req({
+        Url = link,
+        Method = "POST",
+        Headers = { ["Content-Type"] = "application/json" },
+        Body = HttpService:JSONEncode(data)
+    })
+end
+
+--[[ === DEBUG === ]]--
+
 local faixa1 = Best("1M/s", "5M/s")
 local faixa2 = Best("5M/s", "10M/s")
 local faixa3 = Best("10M/s", "999.9M/s")
@@ -75,3 +119,5 @@ end
 if faixa3 then
     print("10M/s -> 999.9M/s: " .. faixa3.nome .. " - " .. faixa3.generation)
 end
+
+--[[ === SCRIPT === ]]--
