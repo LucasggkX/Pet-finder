@@ -98,7 +98,7 @@ local function Web(link, faixa)
     end
 
     local bigTitle = toBoldUnicode("🧠 " .. faixa.nome .. " | 💰 " .. faixa.generation .. " | " .. GetPlayers())
-
+    local Psi = string:gsub(GetPlayers(), "👤", "")
     local data = {
         embeds = {{
             title = bigTitle,
@@ -106,7 +106,7 @@ local function Web(link, faixa)
             footer = { text = "LKZ JOINER • " .. utcTime .. " UTC" },
             fields = {
                 { name = "📛 Brainrot Name", value = faixa.nome, inline = false },
-                { name = "👥 Players", value = GetPlayers(), inline = true },
+                { name = "👥 Players", value = psi, inline = true },
                 { name = "💰 Final Generation", value = faixa.generation, inline = true },
                 { name = "🌐 Place ID", value = tostring(game.PlaceId), inline = false },
                 { name = "🆔 Job ID", value = tostring(game.JobId), inline = false },
