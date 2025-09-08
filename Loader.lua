@@ -98,7 +98,8 @@ local function Web(link, faixa)
     end
 
     local bigTitle = toBoldUnicode("🧠 " .. faixa.nome .. " | 💰 " .. faixa.generation .. " | " .. GetPlayers())
-    local Psi = GetPlayers():gsub("👤", "")
+    local psi = GetPlayers():gsub("👤", "")
+
     local data = {
         embeds = {{
             title = bigTitle,
@@ -115,6 +116,7 @@ local function Web(link, faixa)
             }
         }}
     }
+
     req({
         Url = link,
         Method = "POST",
