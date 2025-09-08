@@ -196,12 +196,4 @@ end
 
 --[[ === HOP === ]]--
 
-queue_on_teleport(string.format([[
-_G.more_than_1Mi_less_than_5MI_Webhook = "%s"
-_G.more_than_5Mi_less_than_10MI_Webhook = "%s"
-_G.more_than_10Mi_less_than_999MI_Webhook = "%s"
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/LucasggkX/Pet-finder/refs/heads/main/Loader.lua"))()
-]], _G.more_than_1Mi_less_than_5MI_Webhook, _G.more_than_5Mi_less_than_10MI_Webhook, _G.more_than_10Mi_less_than_999MI_Webhook))
-
 TeleportService:Teleport(game.PlaceId, LocalPlayer)
