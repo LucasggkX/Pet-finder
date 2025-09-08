@@ -7,6 +7,30 @@
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
+
+local jobFile = "lastJobId.txt"
+local currentJob = game.JobId
+local oldJob
+pcall(function()
+    if isfile(jobFile) then
+        oldJob = readfile(jobFile)
+    end
+end)
+
+local function Hop()
+    task.wait(2)
+    TeleportService:Teleport(game.PlaceId, LocalPlayer)
+end
+
+if oldJob == currentJob then
+    Hop()
+    return
+end
+
+pcall(function()
+    writefile(jobFile, currentJob)
+end)
 
 local function parseValue(str)
     if not str then return 0 end
@@ -169,3 +193,15 @@ for _, pair in ipairs(webhooks) do
         Web(link, faixa)
     end
 end
+
+--[[ === HOP === ]]--
+
+queue_on_teleport(string.format([[
+_G.more_than_1Mi_less_than_5MI_Webhook = "%s"
+_G.more_than_5Mi_less_than_10MI_Webhook = "%s"
+_G.more_than_10Mi_less_than_999MI_Webhook = "%s"
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LucasggkX/Pet-finder/refs/heads/main/Loader.lua"))()
+]], _G.more_than_1Mi_less_than_5MI_Webhook, _G.more_than_5Mi_less_than_10MI_Webhook, _G.more_than_10Mi_less_than_999MI_Webhook))
+
+TeleportService:Teleport(game.PlaceId, LocalPlayer)
