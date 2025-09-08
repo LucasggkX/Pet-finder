@@ -79,9 +79,29 @@ local function Web(link, faixa)
     local req = request or http_request or (syn and syn.request) or (http and http.request)
     if not req then return end
     local utcTime = os.date("!%Y-%m-%d %H:%M:%S")
+
+    local function toBoldUnicode(str)
+        local bold = {}
+        for c in str:gmatch(".") do
+            local code = c:byte()
+            if c:match("%a") then
+                if c:match("%u") then
+                    table.insert(bold, utf8.char(code + 119743))
+                else
+                    table.insert(bold, utf8.char(code + 119737))
+                end
+            else
+                table.insert(bold, c)
+            end
+        end
+        return table.concat(bold)
+    end
+
+    local bigTitle = toBoldUnicode("🧠 " .. faixa.nome .. " | 💰 " .. faixa.generation .. " | " .. GetPlayers())
+
     local data = {
         embeds = {{
-            title = "# 🧠 " .. faixa.nome .. " | 💰 " .. faixa.generation .. " | " .. GetPlayers(),
+            title = bigTitle,
             color = 0x000000,
             footer = { text = "LKZ JOINER • " .. utcTime .. " UTC" },
             fields = {
@@ -91,7 +111,7 @@ local function Web(link, faixa)
                 { name = "🌐 Place ID", value = tostring(game.PlaceId), inline = false },
                 { name = "🆔 Job ID", value = tostring(game.JobId), inline = false },
                 { name = "💻 Join Script (PC)", value = "```lua\ngame:GetService(\"TeleportService\"):TeleportToPlaceInstance(" .. game.PlaceId .. ", \"" .. game.JobId .. "\", game.Players.LocalPlayer)\n```", inline = false },
-                { name = "🔗 Join Link", value = "[Click to Join](" .. GetUrl() .. ")", inline = false },
+                { name = "🔗 Join Link", value = "[Click to Join](" .. "https://lucasggkx.github.io/Pet-finder/?placeId=" .. game.PlaceId .. "&gameInstanceId=" .. game.JobId .. ")", inline = false },
             }
         }}
     }
@@ -99,7 +119,7 @@ local function Web(link, faixa)
         Url = link,
         Method = "POST",
         Headers = { ["Content-Type"] = "application/json" },
-        Body = HttpService:JSONEncode(data)
+        Body = game:GetService("HttpService"):JSONEncode(data)
     })
 end
 
