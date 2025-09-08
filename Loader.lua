@@ -195,5 +195,5 @@ for _, pair in ipairs(webhooks) do
 end
 
 --[[ === HOP === ]]--
-
+task.wait(2)
 TeleportService:Teleport(game.PlaceId, LocalPlayer)
