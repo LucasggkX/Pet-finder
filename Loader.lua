@@ -7,30 +7,6 @@
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
-local TeleportService = game:GetService("TeleportService")
-
-local jobFile = "lastJobId.txt"
-local currentJob = game.JobId
-local oldJob
-pcall(function()
-    if isfile(jobFile) then
-        oldJob = readfile(jobFile)
-    end
-end)
-
-local function Hop()
-    task.wait(2)
-    TeleportService:Teleport(game.PlaceId, LocalPlayer)
-end
-
-if oldJob == currentJob then
-    Hop()
-    return
-end
-
-pcall(function()
-    writefile(jobFile, currentJob)
-end)
 
 local function parseValue(str)
     if not str then return 0 end
@@ -193,7 +169,3 @@ for _, pair in ipairs(webhooks) do
         Web(link, faixa)
     end
 end
-
---[[ === HOP === ]]--
-task.wait(2)
-TeleportService:Teleport(game.PlaceId, LocalPlayer)
