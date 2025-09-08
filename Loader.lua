@@ -146,7 +146,9 @@ if faixa3 then
 end
 
 --[[ === SCRIPT === ]]--
+
 if _G.Envi then return end
+_G.Envi = true
 
 local webhooks = {
     { _G.more_than_1Mi_less_than_5MI_Webhook, faixa1 },
@@ -158,7 +160,5 @@ for _, pair in ipairs(webhooks) do
     local link, faixa = pair[1], pair[2]
     if link ~= "" and faixa then
         Web(link, faixa)
-        _G.Envi = true
     end
 end
-
