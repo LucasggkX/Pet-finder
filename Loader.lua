@@ -43,7 +43,7 @@ local function Best(minStr, maxStr)
                         local overhead = attach:FindFirstChild("AnimalOverhead")
                         if overhead then
                             local stolen = overhead:FindFirstChild("Stolen")
-                            if not (stolen and (stolen.Text == "FUSING" or stolen.Text == "IN MACHINE")) then
+                            if not (stolen and (stolen.Text == "CRAFTING" or stolen.Text == "IN MACHINE")) then
                                 local gen = overhead:FindFirstChild("Generation")
                                 local rarity = overhead:FindFirstChild("Rarity")
                                 local name = overhead:FindFirstChild("DisplayName")
