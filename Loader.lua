@@ -27,29 +27,36 @@ local function Best(minStr, maxStr)
     local plotsFolder = workspace:FindFirstChild("Plots")
     if not plotsFolder then return nil end
     for _, plot in ipairs(plotsFolder:GetChildren()) do
-        local animalPodiums = plot:FindFirstChild("AnimalPodiums")
-        if animalPodiums then
-            for _, podium in ipairs(animalPodiums:GetChildren()) do
-                local base = podium:FindFirstChild("Base")
-                local spawn = base and base:FindFirstChild("Spawn")
-                local attach = spawn and spawn:FindFirstChild("Attachment")
-                if attach then
-                    local overhead = attach:FindFirstChild("AnimalOverhead")
-                    if overhead then
-                        local stolen = overhead:FindFirstChild("Stolen")
-                        if not (stolen and (stolen.Text == "FUSING" or stolen.Text == "IN MACHINE")) then
-                            local gen = overhead:FindFirstChild("Generation")
-                            local rarity = overhead:FindFirstChild("Rarity")
-                            local name = overhead:FindFirstChild("DisplayName")
-                            if gen and rarity and name then
-                                local value = parseValue(gen.Text)
-                                if value >= minVal and value <= maxVal and value > bestValue then
-                                    bestValue = value
-                                    bestAnimal = {
-                                        nome = name.Text,
-                                        raridade = rarity.Text,
-                                        generation = gen.Text
-                                    }
+        local textLabel = plot:FindFirstChild("PlotSign") 
+            and plot.PlotSign:FindFirstChild("SurfaceGui") 
+            and plot.PlotSign.SurfaceGui:FindFirstChild("Frame") 
+            and plot.PlotSign.SurfaceGui.Frame:FindFirstChild("TextLabel")
+
+        if textLabel and textLabel.Text ~= game.Players.LocalPlayer.DisplayName .. "'s Base" then
+            local animalPodiums = plot:FindFirstChild("AnimalPodiums")
+            if animalPodiums then
+                for _, podium in ipairs(animalPodiums:GetChildren()) do
+                    local base = podium:FindFirstChild("Base")
+                    local spawn = base and base:FindFirstChild("Spawn")
+                    local attach = spawn and spawn:FindFirstChild("Attachment")
+                    if attach then
+                        local overhead = attach:FindFirstChild("AnimalOverhead")
+                        if overhead then
+                            local stolen = overhead:FindFirstChild("Stolen")
+                            if not (stolen and (stolen.Text == "FUSING" or stolen.Text == "IN MACHINE")) then
+                                local gen = overhead:FindFirstChild("Generation")
+                                local rarity = overhead:FindFirstChild("Rarity")
+                                local name = overhead:FindFirstChild("DisplayName")
+                                if gen and rarity and name then
+                                    local value = parseValue(gen.Text)
+                                    if value >= minVal and value <= maxVal and value > bestValue then
+                                        bestValue = value
+                                        bestAnimal = {
+                                            nome = name.Text,
+                                            raridade = rarity.Text,
+                                            generation = gen.Text
+                                        }
+                                    end
                                 end
                             end
                         end
