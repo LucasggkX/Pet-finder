@@ -65,9 +65,9 @@ if myPlot then
     end
     table.sort(lista, function(a,b) return a.valor > b.valor end)
 
-    local texto = "Tenho:\n```\nP/S        | Nome                    | Qtd | Mutação\n"
+    local texto = "Tenho:\n```\nP/S        | Nome                      | Qtd | Mutação\n"
     for _, a in ipairs(lista) do
-        texto = texto .. string.format("%-10s | %-23s | %-3d | %-10s\n", a.ps, a.nome, a.quantidade, a.mutacao)
+        texto = texto .. string.format("%-10s | %-25s | %-3d | %-10s\n", a.ps, a.nome, a.quantidade, a.mutacao)
     end
     texto = texto .. "```"
     setclipboard(texto)
