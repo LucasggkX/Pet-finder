@@ -702,6 +702,7 @@ game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"
 end
 
 _G.setupGuis = function()  
+local isMobile = game:GetService("UserInputService").TouchEnabled
 local UserInputService = game:GetService("UserInputService")  
 local RunService = game:GetService("RunService")  
 local Players = game:GetService("Players")  
@@ -716,7 +717,11 @@ mainScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
   
 local mainContainer = Instance.new("Frame")  
 mainContainer.Name = "MainContainer"  
+if isMobile then 
 mainContainer.Size = UDim2.new(0.4, 0, 0.65, 0)  
+else
+mainContainer.Size = UDim2.new(0.4, 0, 0.5, 0) 
+end
 mainContainer.Active = true
 mainContainer.AnchorPoint = Vector2.new(0.5,0.5)
 mainContainer.Draggable = true
@@ -747,7 +752,7 @@ gradient.Parent = mainContainer
   
 local miniButton = Instance.new("ImageButton")  
 miniButton.Name = "ToggleButton"  
-miniButton.Size = UDim2.new(0, 65, 0, 65)  
+miniButton.Size = UDim2.new(0, 65, 0, 65)
 miniButton.AnchorPoint = Vector2.new(0.5, 0.5)
 miniButton.Position = UDim2.new(0.5, -275, 0.5, -150)  
 miniButton.Active = true
@@ -804,7 +809,11 @@ title.Position = UDim2.new(0, 20, 0, 0)
 title.BackgroundTransparency = 1  
 title.TextColor3 = Color3.fromRGB(255, 255, 255)  
 title.Font = Enum.Font.GothamBold  
+if isMobile then 
+title.TextSize = 30
+else
 title.TextSize = 40
+end
 title.TextXAlignment = Enum.TextXAlignment.Left  
 title.TextYAlignment = Enum.TextYAlignment.Center  
 title.Parent = header  
@@ -861,7 +870,11 @@ local function createTab(name)
     local tabButton = Instance.new("TextButton")  
     tabButton.Name = name .. "Tab"  
     tabButton.Text = name  
-    tabButton.Size = UDim2.new(0.187306806, 0, 0.8, 0)  
+    if isMobile then 
+    tabButton.Size = UDim2.new(0.159306806, 0, 0.8, 0) 
+    else 
+    tabButton.Size = UDim2.new(0.167306806, 0, 0.8, 0) 
+    end
     tabButton.BackgroundColor3 = Color3.fromRGB(35, 35, 45)  
     tabButton.BorderSizePixel = 0  
     tabButton.TextColor3 = Color3.fromRGB(180, 180, 190)  
