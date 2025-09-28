@@ -747,12 +747,11 @@ gradient.Parent = mainContainer
   
 local miniButton = Instance.new("ImageButton")  
 miniButton.Name = "ToggleButton"  
-miniButton.Size = UDim2.new(0.0549999997, 0, 0.127000004, 0)  
+miniButton.Size = UDim2.new(0, 55, 0, 55)  
 miniButton.AnchorPoint = Vector2.new(0.5, 0.5)
 miniButton.Position = UDim2.new(0.5, -275, 0.5, -150)  
 miniButton.Active = true
 miniButton.Draggable = true
-miniButton.BackgroundColor3 = Color3.fromRGB(70, 130, 255)  
 miniButton.BorderSizePixel = 0  
 miniButton.Image = "rbxassetid://88557808889639"  
 miniButton.ImageColor3 = Color3.fromRGB(255, 255, 255)  
