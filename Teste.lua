@@ -883,6 +883,7 @@ local function createTab(name)
     tabButton.TextSize = 12.5
         else 
     tabButton.TextSize = 14
+    end
     tabButton.LayoutOrder = #tabs + 1  
     tabButton.Parent = tabsFrame  
   
