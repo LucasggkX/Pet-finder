@@ -1008,7 +1008,7 @@ end
 local function createToggle(name, parent, callback)  
     local toggleFrame = Instance.new("Frame")  
     toggleFrame.Name = name .. "Toggle"  
-    toggleFrame.Size = UDim2.new(1, -10, 0, 45)  
+    toggleFrame.Size = UDim2.new(0.959999979, 0, 0.195000008, 0)  
     toggleFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)  
     toggleFrame.BorderSizePixel = 0
     toggleFrame.LayoutOrder = #parent:GetChildren() + 1  
@@ -1156,7 +1156,7 @@ end
 local function createButton(name, parent, callback)  
     local buttonFrame = Instance.new("Frame")  
     buttonFrame.Name = name .. "Button"  
-    buttonFrame.Size = UDim2.new(1, -10, 0, 45)  
+    buttonFrame.Size = UDim2.new(0.959999979, 0, 0.195000008, 0)  
     buttonFrame.BackgroundColor3 = Color3.fromRGB(70, 130, 255)   
     buttonFrame.BorderSizePixel = 0
     buttonFrame.LayoutOrder = #parent:GetChildren() + 1  
@@ -1273,7 +1273,7 @@ end)
 function createColorPicker(name, parent)
     local frame = Instance.new("Frame")
     frame.Name = name .. "ColorPicker"
-    frame.Size = UDim2.new(1, -10, 0, 60)
+    frame.Size = UDim2.new(0.959999979, 0, 0.195000008, 0)
     frame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
     frame.BorderSizePixel = 0
     frame.LayoutOrder = #parent:GetChildren() + 1
@@ -1300,7 +1300,7 @@ function createColorPicker(name, parent)
     local openBtn = Instance.new("TextButton")
     openBtn.Name = "Open"
     openBtn.Size = UDim2.new(0, 36, 0, 36)
-    openBtn.Position = UDim2.new(1, -54, 0.5, -18)
+    openBtn.Position = UDim2.new(0.898999989, 0, 0.075000003, 0)
     openBtn.BackgroundColor3 = _G.PlayerESPColor or Color3.fromRGB(0,255,0)
     openBtn.BorderSizePixel = 0
     openBtn.AutoButtonColor = false
