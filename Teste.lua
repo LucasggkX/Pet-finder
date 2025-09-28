@@ -720,7 +720,7 @@ mainContainer.Name = "MainContainer"
 if isMobile then 
 mainContainer.Size = UDim2.new(0.4, 0, 0.65, 0)  
 else
-mainContainer.Size = UDim2.new(0.4, 0, 0.5, 0) 
+mainContainer.Size = UDim2.new(0.4, 0, 0.45, 0) 
 end
 mainContainer.Active = true
 mainContainer.AnchorPoint = Vector2.new(0.5,0.5)
@@ -871,9 +871,9 @@ local function createTab(name)
     tabButton.Name = name .. "Tab"  
     tabButton.Text = name  
     if isMobile then 
-    tabButton.Size = UDim2.new(0.159306806, 0, 0.8, 0) 
+    tabButton.Size = UDim2.new(0.165306806, 0, 0.8, 0) 
     else 
-    tabButton.Size = UDim2.new(0.167306806, 0, 0.8, 0) 
+    tabButton.Size = UDim2.new(0.17206806, 0, 0.8, 0) 
     end
     tabButton.BackgroundColor3 = Color3.fromRGB(35, 35, 45)  
     tabButton.BorderSizePixel = 0  
