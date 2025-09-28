@@ -879,7 +879,10 @@ local function createTab(name)
     tabButton.BorderSizePixel = 0  
     tabButton.TextColor3 = Color3.fromRGB(180, 180, 190)  
     tabButton.Font = Enum.Font.Gotham  
-    tabButton.TextSize = 14  
+    if isMobile then
+    tabButton.TextSize = 12.5
+        else 
+    tabButton.TextSize = 14
     tabButton.LayoutOrder = #tabs + 1  
     tabButton.Parent = tabsFrame  
   
