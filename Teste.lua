@@ -747,7 +747,7 @@ gradient.Parent = mainContainer
   
 local miniButton = Instance.new("ImageButton")  
 miniButton.Name = "ToggleButton"  
-miniButton.Size = UDim2.new(0, 65, 0, 65)  
+miniButton.Size = UDim2.new(0.0549999997, 0, 0.127000004, 0)  
 miniButton.AnchorPoint = Vector2.new(0.5, 0.5)
 miniButton.Position = UDim2.new(0.5, -275, 0.5, -150)  
 miniButton.Active = true
