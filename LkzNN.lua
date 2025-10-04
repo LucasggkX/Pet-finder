@@ -9,7 +9,8 @@ local LocalPlayer = Players.LocalPlayer
 
 local w1 = "https://1-5.lucasemanuelguimaraes20.workers.dev/"
 local w2 = "https://5-10.lucasemanuelguimaraes20.workers.dev/"
-local w3 = "https://10-superior.lucasemanuelguimaraes20.workers.dev/"
+local w3 = "https://10-30.lucasemanuelguimaraes20.workers.dev/"
+local w4 = "https://30-superior.lucasemanuelguimaraes20.workers.dev/"
 
 local enviados = {}
 
@@ -141,7 +142,8 @@ task.spawn(function()
             pcall(function()
                 Web(GetAll("1M/s", "4.99M/s"), w1, "1M-5M", "MEDIUM VALUE SECRETS DETECTED (1M-5M)")
                 Web(GetAll("5M/s", "9.99M/s"), w2, "5M-10M", "HIGH VALUE SECRETS DETECTED (5M-10M)")
-                Web(GetAll("10M/s", "5B/s"), w3, "10M-5B", "ULTRA VALUE SECRETS DETECTED (10M-5B)")
+                Web(GetAll("10M/s", "29.99M/s"), w3, "10M-30M", "ULTRA VALUE SECRETS DETECTED (10M-30M)")
+                Web(GetAll("30M/s", "5B/s"), w4, "30M-5B", "ULTRA VALUE SECRETS DETECTED (30M-5B)")
             end)
         end)
     end
