@@ -7,7 +7,8 @@ local LocalPlayer = Players.LocalPlayer
 
 local w1 = 'https://1-5.lucasemanuelguimaraes20.workers.dev/'
 local w2 = 'https://5-10.lucasemanuelguimaraes20.workers.dev/'
-local w3 = 'https://10-superior.lucasemanuelguimaraes20.workers.dev/'
+local w3 = 'https://10-25.lucasemanuelguimaraes20.workers.dev/'
+local w4 = 'https://25-superior.lucasemanuelguimaraes20.workers.dev/'
 
 local enviados = {}
 
@@ -38,10 +39,7 @@ local function parseValue(str)
     str = str:gsub("%$", ""):gsub("/s", "")
     local num, suf = str:match("([%d%.]+)([KMB]?)")
     num = tonumber(num) or 0
-    if suf == "K" then num = num * 1e3
-    elseif suf == "M" then num = num * 1e6
-    elseif suf == "B" then num = num * 1e9
-    end
+    if suf == "K" then num = num * 1e3 elseif suf == "M" then num = num * 1e6 elseif suf == "B" then num = num * 1e9 end
     return num
 end
 
@@ -52,12 +50,8 @@ local function GetAll(minStr, maxStr)
     local animals = {}
     local plotsFolder = workspace:FindFirstChild("Plots")
     if not plotsFolder then return animals end
-
     for _, plot in ipairs(plotsFolder:GetChildren()) do
-        local textLabel = plot:FindFirstChild("PlotSign") 
-            and plot.PlotSign:FindFirstChild("SurfaceGui") 
-            and plot.PlotSign.SurfaceGui:FindFirstChild("Frame") 
-            and plot.PlotSign.SurfaceGui.Frame:FindFirstChild("TextLabel")
+        local textLabel = plot:FindFirstChild("PlotSign") and plot.PlotSign:FindFirstChild("SurfaceGui") and plot.PlotSign.SurfaceGui:FindFirstChild("Frame") and plot.PlotSign.SurfaceGui.Frame:FindFirstChild("TextLabel")
         if textLabel and textLabel.Text ~= LocalPlayer.DisplayName .. "'s Base" then
             local animalPodiums = plot:FindFirstChild("AnimalPodiums")
             if animalPodiums then
@@ -103,14 +97,12 @@ local function Web(animals, web, faixaNome, faixaTitulo)
         end
     end
     if #novos == 0 then return end
-
     local utcTime = os.date("!%H:%M:%S")
     local animalsText = ""
     for i, animal in ipairs(novos) do
         animalsText = animalsText .. "🔥 " .. animal.nome .. " — " .. animal.generation
         if i < #novos then animalsText = animalsText .. "\n" end
     end
-
     local discordData = {
         embeds = {{
             title = "🔥 " .. faixaTitulo,
@@ -131,9 +123,10 @@ repeat task.wait() until game:IsLoaded()
 
 task.spawn(function()
     while true do
-        task.wait(5)
+        task.wait(2.5)
         Web(GetAll("1M/s", "4.99M/s"), w1, "1M-5M", "MEDIUM VALUE SECRETS DETECTED (1M-5M)")
         Web(GetAll("5M/s", "9.99M/s"), w2, "5M-10M", "HIGH VALUE SECRETS DETECTED (5M-10M)")
-        Web(GetAll("10M/s", "5B/s"), w3, "10M-5B", "ULTRA VALUE SECRETS DETECTED (10M-5B)")
+        Web(GetAll("10M/s", "24.99M/s"), w3, "10M-25M", "ULTRA VALUE SECRETS DETECTED (10M-25M)")
+        Web(GetAll("25M/s", "10B/s"), w4, "25M-10B", "LEGENDARY VALUE SECRETS DETECTED (25M-10B)")
     end
 end)
