@@ -1,5 +1,7 @@
 if game.PlaceId ~= 109983668079237 then return end
-if workspace.Map.Codes.Main.SurfaceGui.MainFrame.PrivateServerMessage.Visible == true then return end
+if workspace:FindFirstChild("Map") and workspace.Map:FindFirstChild("Codes") and workspace.Map.Codes:FindFirstChild("Main") and workspace.Map.Codes.Main:FindFirstChild("SurfaceGui") and workspace.Map.Codes.Main.SurfaceGui:FindFirstChild("MainFrame") and workspace.Map.Codes.Main.SurfaceGui.MainFrame:FindFirstChild("PrivateServerMessage") and workspace.Map.Codes.Main.SurfaceGui.MainFrame.PrivateServerMessage.Visible == true then
+    return
+end
 
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
@@ -12,130 +14,135 @@ local w3 = "https://10-superior.lucasemanuelguimaraes20.workers.dev/"
 local enviados = {}
 
 local function gerarHash(texto)
-local soma = 0
-for i = 1, #texto do
-soma = soma + string.byte(texto, i)
-end
-return tostring(soma)
+    local soma = 0
+    for i = 1, #texto do
+        local b = string.byte(texto, i)
+        if b then soma += b end
+    end
+    return tostring(soma)
 end
 
 local function enviarWebhook(discordData, web)
-local timestamp = math.floor(os.time())
-local userId = tostring(LocalPlayer.UserId)
-local hash = gerarHash(userId .. ":" .. timestamp .. ":Webhookzinha123@")
-pcall(function()
-HttpService:RequestAsync({
-Url = web,
-Method = "POST",
-Headers = {["Content-Type"] = "application/json"},
-Body = HttpService:JSONEncode({userId = userId, timestamp = timestamp, hash = hash, dados = discordData})
-})
-end)
+    if not web or type(web) ~= "string" or web == "" then return end
+    local ok, err = pcall(function()
+        local timestamp = math.floor(os.time())
+        local userId = tostring(LocalPlayer.UserId)
+        local hash = gerarHash(userId .. ":" .. timestamp .. ":Webhookzinha123@")
+        HttpService:RequestAsync({
+            Url = web,
+            Method = "POST",
+            Headers = {["Content-Type"] = "application/json"},
+            Body = HttpService:JSONEncode({
+                userId = userId,
+                timestamp = timestamp,
+                hash = hash,
+                dados = discordData
+            })
+        })
+    end)
+    if not ok then warn("Falha ao enviar webhook:", err) end
 end
 
 local function parseValue(str)
-if not str then return 0 end
-str = str:gsub("%$", ""):gsub("/s", "")
-local num, suf = str:match("([%d%.]+)([KMB]?)")
-num = tonumber(num) or 0
-if suf == "K" then num = num * 1e3
-elseif suf == "M" then num = num * 1e6
-elseif suf == "B" then num = num * 1e9
-end
-return num
+    if not str or type(str) ~= "string" then return 0 end
+    str = str:gsub("%$", ""):gsub("/s", "")
+    local num, suf = str:match("([%d%.]+)([KMB]?)")
+    num = tonumber(num) or 0
+    if suf == "K" then num *= 1e3 elseif suf == "M" then num *= 1e6 elseif suf == "B" then num *= 1e9 end
+    return num
 end
 
 local function GetAll(minStr, maxStr)
-local minVal = parseValue(minStr)
-local maxVal = parseValue(maxStr)
-if minVal > maxVal then minVal, maxVal = maxVal, minVal end
-local animals = {}
-local plotsFolder = workspace:FindFirstChild("Plots")
-if not plotsFolder then return animals end
+    local minVal, maxVal = parseValue(minStr), parseValue(maxStr)
+    if minVal > maxVal then minVal, maxVal = maxVal, minVal end
+    local animals = {}
+    local plotsFolder = workspace:FindFirstChild("Plots")
+    if not plotsFolder then return animals end
 
-for _, plot in ipairs(plotsFolder:GetChildren()) do  
-    local textLabel = plot:FindFirstChild("PlotSign")   
-        and plot.PlotSign:FindFirstChild("SurfaceGui")   
-        and plot.PlotSign.SurfaceGui:FindFirstChild("Frame")   
-        and plot.PlotSign.SurfaceGui.Frame:FindFirstChild("TextLabel")  
-    if textLabel and textLabel.Text ~= LocalPlayer.DisplayName .. "'s Base" then  
-        local animalPodiums = plot:FindFirstChild("AnimalPodiums")  
-        if animalPodiums then  
-            for _, podium in ipairs(animalPodiums:GetChildren()) do  
-                local base = podium:FindFirstChild("Base")  
-                local spawn = base and base:FindFirstChild("Spawn")  
-                local attach = spawn and spawn:FindFirstChild("Attachment")  
-                if attach then  
-                    local overhead = attach:FindFirstChild("AnimalOverhead")  
-                    if overhead then  
-                        local stolen = overhead:FindFirstChild("Stolen")  
-                        if not (stolen and (stolen.Text == "CRAFTING" or stolen.Text == "IN MACHINE")) then  
-                            local gen = overhead:FindFirstChild("Generation")  
-                            local rarity = overhead:FindFirstChild("Rarity")  
-                            local name = overhead:FindFirstChild("DisplayName")  
-                            if gen and rarity and name then  
-                                local value = parseValue(gen.Text)  
-                                if value >= minVal and value <= maxVal then  
-                                    table.insert(animals, {nome = name.Text, raridade = rarity.Text, generation = gen.Text})  
-                                end  
-                            end  
-                        end  
-                    end  
-                end  
-            end  
-        end  
-    end  
-end  
-return animals
+    for _, plot in ipairs(plotsFolder:GetChildren()) do
+        local textLabel = plot:FindFirstChild("PlotSign")
+            and plot.PlotSign:FindFirstChild("SurfaceGui")
+            and plot.PlotSign.SurfaceGui:FindFirstChild("Frame")
+            and plot.PlotSign.SurfaceGui.Frame:FindFirstChild("TextLabel")
 
+        if textLabel and textLabel.Text and textLabel.Text ~= (LocalPlayer.DisplayName .. "'s Base") then
+            local animalPodiums = plot:FindFirstChild("AnimalPodiums")
+            if animalPodiums then
+                for _, podium in ipairs(animalPodiums:GetChildren()) do
+                    local base = podium:FindFirstChild("Base")
+                    local spawn = base and base:FindFirstChild("Spawn")
+                    local attach = spawn and spawn:FindFirstChild("Attachment")
+                    local overhead = attach and attach:FindFirstChild("AnimalOverhead")
+                    if overhead then
+                        local stolen = overhead:FindFirstChild("Stolen")
+                        if not (stolen and (stolen.Text == "CRAFTING" or stolen.Text == "IN MACHINE")) then
+                            local gen, rarity, name = overhead:FindFirstChild("Generation"), overhead:FindFirstChild("Rarity"), overhead:FindFirstChild("DisplayName")
+                            if gen and rarity and name and gen.Text and name.Text and rarity.Text then
+                                local value = parseValue(gen.Text)
+                                if value >= minVal and value <= maxVal then
+                                    table.insert(animals, {nome = name.Text, raridade = rarity.Text, generation = gen.Text})
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return animals
 end
 
 local function GetPlayers()
-return #Players:GetPlayers() .. "/" .. (Players.MaxPlayers or 0)
+    local total = Players.MaxPlayers or 0
+    return tostring(#Players:GetPlayers()) .. "/" .. tostring(total)
 end
 
 local function Web(animals, web, faixaNome, faixaTitulo)
-if #animals == 0 or #Players:GetPlayers() >= Players.MaxPlayers then return end
-local novos = {}
-for _, a in ipairs(animals) do
-if not enviados[a.nome] then
-enviados[a.nome] = true
-table.insert(novos, a)
-end
-end
-if #novos == 0 then return end
+    if typeof(animals) ~= "table" or #animals == 0 then return end
+    if #Players:GetPlayers() >= (Players.MaxPlayers or 0) then return end
+    local novos = {}
+    for _, a in ipairs(animals) do
+        if a and a.nome and not enviados[a.nome] then
+            enviados[a.nome] = true
+            table.insert(novos, a)
+        end
+    end
+    if #novos == 0 then return end
 
-local utcTime = os.date("!%H:%M:%S")  
-local animalsText = ""  
-for i, animal in ipairs(novos) do  
-    animalsText = animalsText .. "🔥 " .. animal.nome .. " — " .. animal.generation  
-    if i < #novos then animalsText = animalsText .. "\n" end  
-end  
+    local utcTime = os.date("!%H:%M:%S")
+    local animalsText = ""
+    for i, animal in ipairs(novos) do
+        animalsText ..= "🔥 " .. animal.nome .. " — " .. animal.generation
+        if i < #novos then animalsText ..= "\n" end
+    end
 
-local discordData = {  
-    embeds = {{  
-        title = "🔥 " .. faixaTitulo,  
-        description = animalsText,  
-        color = 3447003,  
-        fields = {  
-            {name = "📊 Server Info", value = GetPlayers(), inline = false},  
-            {name = "🆔 Job ID", value = "```" .. tostring(game.JobId) .. "```", inline = false},  
-            {name = "🔗 Join Server", value = "[CLIQUE PARA ENTRAR](https://lucasggkx.github.io/Pet-finder/?placeId=" .. game.PlaceId .. "&gameInstanceId=" .. game.JobId .. ")", inline = false}  
-        },  
-        footer = {text = "LKZ NOTIFIER 🔥 | Secret Scanner " .. faixaNome .. " | Hoje às " .. utcTime}  
-    }}  
-}  
-enviarWebhook(discordData, web)
+    local discordData = {
+        embeds = {{
+            title = "🔥 " .. faixaTitulo,
+            description = animalsText,
+            color = 3447003,
+            fields = {
+                {name = "📊 Server Info", value = GetPlayers(), inline = false},
+                {name = "🆔 Job ID", value = "```" .. tostring(game.JobId) .. "```", inline = false},
+                {name = "🔗 Join Server", value = "[CLIQUE PARA ENTRAR](https://lucasggkx.github.io/Pet-finder/?placeId=" .. game.PlaceId .. "&gameInstanceId=" .. game.JobId .. ")", inline = false}
+            },
+            footer = {text = "LKZ NOTIFIER 🔥 | Secret Scanner " .. faixaNome .. " | Hoje às " .. utcTime}
+        }}
+    }
 
+    enviarWebhook(discordData, web)
 end
 
 repeat task.wait() until game:IsLoaded()
 
 task.spawn(function()
-while true do
-task.wait(5)
-Web(GetAll("1M/s", "4.99M/s"), w1, "1M-5M", "MEDIUM VALUE SECRETS DETECTED (1M-5M)")
-Web(GetAll("5M/s", "9.99M/s"), w2, "5M-10M", "HIGH VALUE SECRETS DETECTED (5M-10M)")
-Web(GetAll("10M/s", "5B/s"), w3, "10M-5B", "ULTRA VALUE SECRETS DETECTED (10M-5B)")
-end
+    while task.wait(2.5) do
+        task.spawn(function()
+            pcall(function()
+                Web(GetAll("1M/s", "4.99M/s"), w1, "1M-5M", "MEDIUM VALUE SECRETS DETECTED (1M-5M)")
+                Web(GetAll("5M/s", "9.99M/s"), w2, "5M-10M", "HIGH VALUE SECRETS DETECTED (5M-10M)")
+                Web(GetAll("10M/s", "5B/s"), w3, "10M-5B", "ULTRA VALUE SECRETS DETECTED (10M-5B)")
+            end)
+        end)
+    end
 end)
