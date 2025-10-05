@@ -183,7 +183,7 @@ task.spawn(
                         description = animalsText,
                         color = 3447003,
                         fields = {
-                            {name = "📊 Serrver Info", value = GetPlayers(), inline = false},
+                            {name = "📊 Server Info", value = GetPlayers(), inline = false},
                             {name = "🆔 Job ID", value = "```" .. tostring(game.JobId) .. "```", inline = false},
                             {
                                 name = "🔗 Join Server",
