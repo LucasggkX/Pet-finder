@@ -1,3 +1,4 @@
+task.spawn(function()
 if game.PlaceId ~= 109983668079237 then return end
 if workspace:FindFirstChild("Map") and workspace.Map:FindFirstChild("Codes") and workspace.Map.Codes:FindFirstChild("Main") and workspace.Map.Codes.Main:FindFirstChild("SurfaceGui") and workspace.Map.Codes.Main.SurfaceGui:FindFirstChild("MainFrame") and workspace.Map.Codes.Main.SurfaceGui.MainFrame:FindFirstChild("PrivateServerMessage") and workspace.Map.Codes.Main.SurfaceGui.MainFrame.PrivateServerMessage.Visible == true then
     return
@@ -24,7 +25,7 @@ end
 
 local function enviarWebhook(discordData, web)
     if not web or type(web) ~= "string" or web == "" then return end
-    local ok, err = pcall(function()
+    pcall(function()
         local timestamp = math.floor(os.time())
         local userId = tostring(LocalPlayer.UserId)
         local hash = gerarHash(userId .. ":" .. timestamp .. ":Webhookzinha123@")
@@ -40,7 +41,6 @@ local function enviarWebhook(discordData, web)
             })
         })
     end)
-    if not ok then warn("Falha ao enviar webhook:", err) end
 end
 
 local function parseValue(str)
@@ -100,19 +100,31 @@ end
 local function Web(animals, web, faixaNome, faixaTitulo)
     if typeof(animals) ~= "table" or #animals == 0 then return end
     if #Players:GetPlayers() >= (Players.MaxPlayers or 0) then return end
-    local novos = {}
+
+    local contar = {}
     for _, a in ipairs(animals) do
-        if a and a.nome and not enviados[a.nome] then
-            enviados[a.nome] = true
-            table.insert(novos, a)
+        if a.nome and a.generation then
+            local key = a.nome .. "|" .. a.generation
+            contar[key] = (contar[key] or 0) + 1
         end
     end
+
+    local novos = {}
+    for key, qty in pairs(contar) do
+        if not enviados[key] then
+            enviados[key] = true
+            local nome, generation = key:match("(.+)|(.+)")
+            table.insert(novos, {nome = nome, generation = generation, quantidade = qty})
+        end
+    end
+
     if #novos == 0 then return end
 
     local utcTime = os.date("!%H:%M:%S")
     local animalsText = ""
     for i, animal in ipairs(novos) do
         animalsText ..= "🔥 " .. animal.nome .. " — " .. animal.generation
+        if animal.quantidade > 1 then animalsText ..= " - " .. animal.quantidade .. "x" end
         if i < #novos then animalsText ..= "\n" end
     end
 
@@ -137,12 +149,11 @@ repeat task.wait() until game:IsLoaded()
 
 task.spawn(function()
     while task.wait(2.5) do
-        task.spawn(function()
-            pcall(function()
-                Web(GetAll("1M/s", "4.99M/s"), w1, "1M-5M", "MEDIUM VALUE SECRETS DETECTED (1M-5M)")
-                Web(GetAll("5M/s", "9.99M/s"), w2, "5M-10M", "HIGH VALUE SECRETS DETECTED (5M-10M)")
-                Web(GetAll("10M/s", "5B/s"), w3, "10M-5B", "ULTRA VALUE SECRETS DETECTED (10M-5B)")
-            end)
+        pcall(function()
+            Web(GetAll("1M/s", "4.99M/s"), w1, "1M-5M", "MEDIUM VALUE SECRETS DETECTED (1M-5M)")
+            Web(GetAll("5M/s", "9.99M/s"), w2, "5M-10M", "HIGH VALUE SECRETS DETECTED (5M-10M)")
+            Web(GetAll("10M/s", "5B/s"), w3, "10M-5B", "ULTRA VALUE SECRETS DETECTED (10M-5B)")
         end)
     end
+end)
 end)
