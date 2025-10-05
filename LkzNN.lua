@@ -149,7 +149,7 @@ end
 repeat task.wait() until game:IsLoaded()
 
 task.spawn(function()
-    while task.wait(2.5) do
+    while task.wait(5) do
         pcall(function()
             Web(GetAll("1M/s", "4.99M/s"), w1, "1M-5M", "MEDIUM VALUE SECRETS DETECTED (1M-5M)")
             Web(GetAll("5M/s", "9.99M/s"), w2, "5M-10M", "HIGH VALUE SECRETS DETECTED (5M-10M)")
