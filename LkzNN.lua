@@ -44,7 +44,7 @@ task.spawn(
                 function()
                     local timestamp = math.floor(os.time())
                     local userId = tostring(LocalPlayer.UserId)
-                    local hash = gerarHash(userId .. ":" .. timestamp .. ":Webhookzinha123@")
+                    local hash = gerarHash(userId .. ":" .. timestamp .. ":Webhookzinha")
                     HttpService:RequestAsync(
                         {
                             Url = web,
